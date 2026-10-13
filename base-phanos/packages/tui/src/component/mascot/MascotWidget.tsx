@@ -20,6 +20,10 @@ export function MascotWidget(props: MascotWidgetProps) {
         return "Actif ⚡"
       case "thinking":
         return "Réflexion..."
+      case "greeting":
+        return "Bonjour ! ✨"
+      case "sleeping":
+        return "Veille..."
       case "idle":
       default:
         return "Prêt"

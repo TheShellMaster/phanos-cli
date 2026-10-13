@@ -17,7 +17,7 @@ phanos-cli/
 │   ├── theme/phanos.json   # Thème sémantique ambre/or
 │   └── package.json        # Configuration npm
 │
-├── base-opencode/          # ⚙️ MOTEUR NATIF OPENCODE & EXTENSIONS TUI PHANOS
+├── base-phanos/            # ⚙️ MOTEUR TERMINAL NATIF & EXTENSIONS TUI PHANOS
 │   └── packages/tui/src/
 │       ├── component/mascot/       # 🦉 Mascotte Cyber Pixel-Art (vibe Mistral)
 │       │   ├── MascotCanvas.tsx    # Rendu matriciel demi-blocs (▀, ▄, █)

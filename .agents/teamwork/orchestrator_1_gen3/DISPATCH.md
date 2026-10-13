@@ -39,3 +39,9 @@ Dispatch implementers (workers) to:
 6. Verify all acceptance criteria, run forensic review/audit, and report completion to Sentinel.
 
 Maintain BRIEFING.md and progress.md in your working directory.
+
+## 2026-10-13T15:01:05Z
+Sender: c0f8fb76-b01b-4420-b644-4653e6028bd7 (Sentinel)
+Content:
+[Sentinel Liveness Nudge]
+Rappel de vivacité (17 min sur `progress.md`) : Merci d'actualiser votre journal d'avancement avec l'état des workers M1, M2 et M3 en cours d'exécution.

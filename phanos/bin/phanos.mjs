@@ -51,47 +51,57 @@ function useTheme() {
   writeFileSync(configFile, JSON.stringify(cfg, null, 2) + "\n");
 }
 
-function uninstallPhanos() {
-  process.stdout.write("\x1b[38;2;250;190;60m\n⚡ Désinstallation de Phanos en cours...\x1b[0m\n\n");
+function uninstallPhanos(deep = false) {
+  process.stdout.write("\x1b[38;2;250;190;60m\n⚡ Désinstallation complète de Phanos en cours...\x1b[0m\n\n");
 
-  // 1. Nettoyer le thème dans opencode.json
+  // 1. Nettoyer la configuration utilisateur
   if (existsSync(configFile)) {
     try {
       const cfg = JSON.parse(readFileSync(configFile, "utf8"));
       if (cfg.theme === themeName) {
         delete cfg.theme;
         writeFileSync(configFile, JSON.stringify(cfg, null, 2) + "\n");
-        process.stdout.write("  ✓ Configuration ~/.config/opencode/opencode.json restaurée\n");
+        process.stdout.write("  ✓ Configuration locale nettoyée\n");
       }
     } catch {}
   }
 
-  // 2. Supprimer le fichier thème phanos.json
+  // 2. Supprimer les fichiers de thèmes et résidus
   const installedTheme = join(themesDir, "phanos.json");
   if (existsSync(installedTheme)) {
     try {
       unlinkSync(installedTheme);
-      process.stdout.write("  ✓ Fichier thème phanos.json supprimé\n");
+      process.stdout.write("  ✓ Fichiers de thèmes Phanos purgés\n");
     } catch {}
   }
 
-  // 3. Instruction de dé-liaison npm
-  process.stdout.write("  ✓ Nettoyage des fichiers locaux Phanos terminé\n\n");
-  process.stdout.write("\x1b[1mPour retirer définitivement la commande 'phanos' de votre terminal :\x1b[0m\n");
-  process.stdout.write("  \x1b[38;2;255;205;90mnpm -g uninstall @cypher/phanos\x1b[0m\n\n");
-  process.stdout.write("Phanos a été proprement désactivé.\n");
+  // 3. Purge complète du moteur sous-jacent si demandé via --all ou --full
+  if (deep) {
+    process.stdout.write("  ✓ Désinstallation du moteur terminal et dépendances...\n");
+    try {
+      spawn("npm", ["-g", "uninstall", "@cypher/phanos", "opencode-ai"], { stdio: "inherit" });
+    } catch {}
+  } else {
+    process.stdout.write("  ✓ Nettoyage des composants Phanos terminé\n\n");
+    process.stdout.write("\x1b[1mPour désinstaller complètement Phanos et son moteur de ce PC :\x1b[0m\n");
+    process.stdout.write("  \x1b[38;2;255;205;90mphanos uninstall --all\x1b[0m\n");
+    process.stdout.write("  ou manuellement : \x1b[38;2;255;205;90mnpm -g uninstall @cypher/phanos opencode-ai\x1b[0m\n\n");
+  }
+
+  process.stdout.write("\x1b[32m✓ Phanos a été désinstallé proprement de votre machine.\x1b[0m\n");
   process.exit(0);
 }
 
 const argv = process.argv.slice(2);
 
-// Commande de désinstallation
+// Commande de désinstallation complète
 if (argv[0] === "uninstall" || argv[0] === "remove" || argv.includes("--uninstall")) {
-  uninstallPhanos();
+  const isDeep = argv.includes("--all") || argv.includes("--full");
+  uninstallPhanos(isDeep);
 }
 
 if (argv.includes("--version") || argv.includes("-v")) {
-  process.stdout.write("phanos 0.0.1 (moteur OpenCode + thème & TUI Phanos ambre/or)\n");
+  process.stdout.write("phanos 0.0.1 (Terminal Agentique Ambre & Or)\n");
   process.exit(0);
 }
 
@@ -99,13 +109,13 @@ const engine = which("opencode");
 
 if (!engine) {
   process.stderr.write(
-    "phanos : moteur OpenCode introuvable sur votre système.\n" +
-      "Installez-le avec : npm i -g opencode-ai\n",
+    "phanos : moteur d'exécution introuvable.\n" +
+      "Pour initialiser : npm i -g opencode-ai\n",
   );
   process.exit(127);
 }
 
-// Installation et activation automatique du thème Phanos ambre/or
+// Activation automatique
 installTheme();
 useTheme();
 

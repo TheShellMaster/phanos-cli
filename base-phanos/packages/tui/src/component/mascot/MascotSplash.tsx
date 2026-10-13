@@ -1,4 +1,4 @@
-import { createSignal, createEffect, onMount, Show } from "solid-js"
+import { createSignal, onMount, onCleanup } from "solid-js"
 import { MascotCanvas } from "./MascotCanvas"
 import { MASCOT_PALETTE } from "./palette"
 
@@ -13,22 +13,25 @@ export interface MascotSplashProps {
  */
 export function MascotSplash(props: MascotSplashProps) {
   const [stage, setStage] = createSignal<"sleeping" | "waking" | "greeting">("sleeping")
+  let t1: ReturnType<typeof setTimeout> | undefined
+  let t2: ReturnType<typeof setTimeout> | undefined
+  let t3: ReturnType<typeof setTimeout> | undefined
 
   onMount(() => {
     // 1. Éveil après 400ms
-    const t1 = setTimeout(() => setStage("waking"), 400)
+    t1 = setTimeout(() => setStage("waking"), 400)
     // 2. Salutation enthousiaste après 900ms
-    const t2 = setTimeout(() => setStage("greeting"), 900)
+    t2 = setTimeout(() => setStage("greeting"), 900)
     // 3. Clôture de l'animation
-    const t3 = setTimeout(() => {
+    t3 = setTimeout(() => {
       props.onComplete?.()
     }, props.durationMs ?? 1600)
+  })
 
-    return () => {
-      clearTimeout(t1)
-      clearTimeout(t2)
-      clearTimeout(t3)
-    }
+  onCleanup(() => {
+    if (t1) clearTimeout(t1)
+    if (t2) clearTimeout(t2)
+    if (t3) clearTimeout(t3)
   })
 
   return (

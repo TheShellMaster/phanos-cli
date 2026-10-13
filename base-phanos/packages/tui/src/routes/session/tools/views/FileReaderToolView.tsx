@@ -1,6 +1,6 @@
 import { createMemo, For, Show } from "solid-js"
 import { useTheme } from "../../../../context/theme"
-import { usePathFormatter } from "../../../../context/path"
+import { usePathFormatter } from "../../../../context/path-format"
 import { ToolAccordion } from "../ToolAccordion"
 import { ToolArgumentsView } from "../ToolArgumentsView"
 import type { ClaudeToolViewProps } from "../types"

@@ -2,7 +2,7 @@ import { createSignal, createEffect, onCleanup } from "solid-js"
 import type { MascotMood } from "./types"
 
 export interface UseMascotStateProps {
-  mood?: MascotMood
+  mood?: MascotMood | (() => MascotMood)
   blinkIntervalMs?: number
   activeIntervalMs?: number
 }
@@ -13,7 +13,10 @@ export interface UseMascotStateProps {
  */
 export function useMascotState(props?: UseMascotStateProps) {
   const [frameIndex, setFrameIndex] = createSignal(0)
-  const currentMood = () => props?.mood ?? "idle"
+  const currentMood = () => {
+    const m = props?.mood
+    return (typeof m === "function" ? m() : m) ?? "idle"
+  }
 
   createEffect(() => {
     const mood = currentMood()

@@ -1,4 +1,4 @@
-# BRIEFING — 2026-10-13T14:43:00Z
+# BRIEFING — 2026-10-13T15:03:00Z
 
 ## Mission
 Orchestrate the end-to-end implementation and wiring of Phanos TUI: R1 Mascotte Mistral Pixel-Art (Splash & Widget), R2 Asymmetric Split Screen with inspection sidebar & floating composer, R3 Claude Code dynamic tools, and R4 clean native plumbing with zero typecheck errors.
@@ -37,7 +37,7 @@ Orchestrate the end-to-end implementation and wiring of Phanos TUI: R1 Mascotte 
   4. M4 Typecheck Cleanliness & Integration [pending]
   5. M5 Dual Review, Challenge & Forensic Audit [pending]
 - **Current phase**: 2 (Dispatch & Execute)
-- **Current focus**: M1, M2, M3 Worker execution
+- **Current focus**: Workers M1_gen2, M2_gen2, M3_gen2 execution
 
 ## 🔒 Key Constraints
 - DISPATCH-ONLY: Never write source code or run build commands directly.
@@ -50,24 +50,25 @@ Orchestrate the end-to-end implementation and wiring of Phanos TUI: R1 Mascotte 
 
 ## Current Parent
 - Conversation ID: c0f8fb76-b01b-4420-b644-4653e6028bd7
-- Updated: 2026-10-13T14:35:45Z
+- Updated: 2026-10-13T15:03:00Z
 
 ## Key Decisions Made
 - Proceed directly to implementation and wiring based on thorough surveys and handoff reports from Explorer 1, Explorer 2, and ground truth documents.
 - Dispatched M1, M2, M3 concurrently with disjoint file ownership boundaries.
-- Integration milestone M4 will wire `session/index.tsx` once component packages compile cleanly.
+- Replaced M2 and M3 with Gen 2 workers following transient TCP drop on initial worker connections.
+- Replaced M1 with Gen 2 worker following 20 min stall on initial connection.
 
 ## Team Roster
 | Agent | Type | Work Item | Status | Conv ID |
 |-------|------|-----------|--------|---------|
-| worker_mascot_m1 | teamwork_preview_worker | M1 Mascotte Fixes & app.tsx Splash | in-progress | 03d26853-7c86-4b26-8a02-b7b294d59334 |
-| worker_layout_m2 | teamwork_preview_worker | M2 Asymmetric Layout & Modular Sidebar | in-progress | 6bc445df-bbeb-4818-9589-e17e9ef59820 |
-| worker_tools_m3 | teamwork_preview_worker | M3 Claude Tools Verification & message-parts | in-progress | f5a2a8fe-6d83-4fce-8a54-74653b930291 |
+| worker_mascot_m1_gen2 | teamwork_preview_worker | M1 Mascotte Fixes & app.tsx Splash | in-progress | 3fa1528a-bfb3-487e-9d6c-42fbdc479b7f |
+| worker_layout_m2_gen2 | teamwork_preview_worker | M2 Asymmetric Layout & Modular Sidebar | in-progress | 3761b3d9-8952-4807-b85f-a0ff97be5f7c |
+| worker_tools_m3_gen2 | teamwork_preview_worker | M3 Claude Tools Verification & message-parts | in-progress | 9abc4003-aaf9-482a-8082-044a0dc47f32 |
 
 ## Succession Status
 - Succession required: no
-- Spawn count: 3 / 16
-- Pending subagents: 03d26853-7c86-4b26-8a02-b7b294d59334, 6bc445df-bbeb-4818-9589-e17e9ef59820, f5a2a8fe-6d83-4fce-8a54-74653b930291
+- Spawn count: 6 / 16
+- Pending subagents: 3fa1528a-bfb3-487e-9d6c-42fbdc479b7f, 3761b3d9-8952-4807-b85f-a0ff97be5f7c, 9abc4003-aaf9-482a-8082-044a0dc47f32
 - Predecessor: orchestrator_1_gen2
 - Successor: not yet spawned
 

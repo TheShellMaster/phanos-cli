@@ -34,7 +34,7 @@ export const FRAME_THINKING_1: MascotSpriteFrame = {
   width: 12,
   height: 4,
   rows: [
-    " ╭────────╮ ✦",
+    " ╭────────╮✦",
     " │ ◉    · │ ",
     " │   ~    │ ",
     " ╰─▄▄──▄▄─╯ ",
