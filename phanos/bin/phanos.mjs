@@ -105,12 +105,18 @@ if (argv.includes("--version") || argv.includes("-v")) {
   process.exit(0);
 }
 
-const engine = which("opencode");
+// 1. Détecter si le dépôt local base-phanos est présent et si bun est disponible
+const bunBin = which("bun");
+const basePhanosRoot = join(root, "..", "base-phanos");
+const basePhanosEntry = join(basePhanosRoot, "packages", "cli", "src", "index.ts");
+const isBasePhanosAvailable = bunBin && existsSync(basePhanosEntry);
+
+const engine = isBasePhanosAvailable ? bunBin : which("opencode");
 
 if (!engine) {
   process.stderr.write(
     "phanos : moteur d'exécution introuvable.\n" +
-      "Pour initialiser : npm i -g opencode-ai\n",
+      "Pour initialiser : npm i -g opencode-ai ou installez bun\n",
   );
   process.exit(127);
 }
@@ -158,7 +164,12 @@ if (argv[0] === "web") {
   process.exit(1);
 }
 
-const child = spawn(engine, args, { stdio: "inherit" });
+const spawnCmd = isBasePhanosAvailable ? bunBin : engine;
+const spawnArgs = isBasePhanosAvailable
+  ? ["run", "--cwd", basePhanosRoot, basePhanosEntry, ...args]
+  : args;
+
+const child = spawn(spawnCmd, spawnArgs, { stdio: "inherit" });
 child.on("exit", (code, signal) => {
   if (signal) process.exit(1);
   process.exit(code ?? 0);
