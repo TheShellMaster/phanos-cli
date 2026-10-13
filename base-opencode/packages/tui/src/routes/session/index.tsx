@@ -58,6 +58,7 @@ import {
 } from "../../util/tool-display"
 import { DialogExecute } from "./dialog-execute"
 import { RetryProvider } from "../../component/retry-provider"
+import { ClaudeToolPart } from "./tools/ClaudeToolPart"
 import { useRenderer, useTerminalDimensions, type JSX } from "@opentui/solid"
 import { useClient } from "../../context/client"
 import { useEditorContext } from "../../context/editor"
@@ -2440,50 +2441,7 @@ function ToolPart(props: { part: SessionMessageAssistantTool; images?: boolean }
   }
 
   const content = (
-    <Switch>
-      <Match when={display() === "shell"}>
-        <Shell {...toolprops} />
-      </Match>
-      <Match when={display() === "glob"}>
-        <Glob {...toolprops} />
-      </Match>
-      <Match when={display() === "read"}>
-        <Read {...toolprops} />
-      </Match>
-      <Match when={display() === "grep"}>
-        <Grep {...toolprops} />
-      </Match>
-      <Match when={display() === "webfetch"}>
-        <WebFetch {...toolprops} />
-      </Match>
-      <Match when={display() === "websearch"}>
-        <WebSearch {...toolprops} />
-      </Match>
-      <Match when={display() === "write"}>
-        <Write {...toolprops} />
-      </Match>
-      <Match when={display() === "edit"}>
-        <Edit {...toolprops} />
-      </Match>
-      <Match when={display() === "subagent"}>
-        <Subagent {...toolprops} />
-      </Match>
-      <Match when={display() === "execute"}>
-        <Execute {...toolprops} />
-      </Match>
-      <Match when={display() === "patch"}>
-        <ApplyPatch {...toolprops} />
-      </Match>
-      <Match when={display() === "question"}>
-        <Question {...toolprops} />
-      </Match>
-      <Match when={display() === "skill"}>
-        <Skill {...toolprops} />
-      </Match>
-      <Match when={true}>
-        <GenericTool {...toolprops} />
-      </Match>
-    </Switch>
+    <ClaudeToolPart part={props.part} />
   )
   return [
     content,

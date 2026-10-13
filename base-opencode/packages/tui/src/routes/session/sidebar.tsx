@@ -6,6 +6,7 @@ import { Slot } from "../../plugin/render"
 import { withTimestampedFallback } from "@opencode/util/session-title-fallback"
 import { TextAttributes } from "@opentui/core"
 import "../../component/title-shimmer"
+import { MascotWidget } from "../../component/mascot"
 
 import { getScrollAcceleration } from "../../util/scroll"
 import { SESSION_SIDEBAR_WIDTH } from "../../ui/layout"
@@ -29,7 +30,11 @@ export function Sidebar(props: { sessionID: string }) {
         paddingRight={2}
         position="relative"
       >
-        <box flexShrink={0} paddingRight={2} paddingBottom={1}>
+        <box flexShrink={0} paddingRight={2} paddingBottom={1} flexDirection="column" gap={1}>
+          <box flexDirection="row" justifyContent="space-between" alignItems="center">
+            <text fg={theme.text.feedback.warning.base}>PHANOS</text>
+            <MascotWidget mood="idle" />
+          </box>
           <title_shimmer
             fg={theme.text.base}
             rename={{
