@@ -1,0 +1,21 @@
+{
+  "name": "@cypher/phanos",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Agent terminal — phanos",
+  "type": "module",
+  "bin": {
+    "phanos": "bin/phanos.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "bin",
+    "theme",
+    "install.sh"
+  ],
+  "scripts": {
+    "start": "node bin/phanos.mjs"
+  }
+}
