@@ -126,6 +126,8 @@ import { context, use, type PendingAction } from "./render-context"
 import { INLINE_TOOL_ICON_WIDTH, InlineToolRow, ReasoningPart, TextPart, toolDisplay } from "./message-parts"
 import { defaultVerbosity, type GroupKind, type SessionEntry } from "./grouping/session"
 import { SessionGroupView } from "./group-view"
+import { MascotWidget } from "../../component/mascot"
+import type { MascotMood } from "../../component/mascot/types"
 import { useEntryAnchor } from "./anchor-view"
 import { containsAnchor, createTimelineAnchors, groupID } from "./anchors"
 import { rowsAfter, rowsBefore, rowWeight } from "./mount-budget"
@@ -1344,6 +1346,23 @@ export function Session(props: {
     ),
   )
 
+  // Determine mascot mood dynamically based on active session messages / tools state
+  const mascotMood = createMemo<MascotMood>(() => {
+    const list = messages()
+    const last = list.at(-1)
+    if (!last) return "idle"
+
+    if (last.type === "assistant") {
+      if (!last.time.completed) {
+        const runningTool = last.content.some(
+          (part) => part.type === "tool" && (part.state.status === "running" || part.state.status === "streaming"),
+        )
+        return runningTool ? "executing" : "thinking"
+      }
+    }
+    return "idle"
+  })
+
   // Memoized per axis so width readers do not re-run on height-only resizes
   // (dimensions() is one object signal with identity equality) and vice versa.
   const terminalWidth = createMemo(() => dimensions().width)
@@ -1400,6 +1419,14 @@ export function Session(props: {
           paddingLeft={dimensions().width < 44 ? 1 : 2}
           paddingRight={dimensions().width < 44 ? 1 : 2}
         >
+          {/* Entité animée (Mascotte Phanos) située au-dessus au bord gauche de la discussion */}
+          <box flexDirection="row" alignItems="center" gap={1} marginBottom={1} flexShrink={0}>
+            <MascotWidget mood={mascotMood()} />
+            <text fg={theme.text.feedback.warning.base} attributes={TextAttributes.BOLD}>
+              PHANOS
+            </text>
+          </box>
+
           <Show when={session()}>
             <box flexGrow={1} minHeight={0} position="relative">
               <scrollbox
